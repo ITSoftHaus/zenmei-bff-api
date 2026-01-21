@@ -1,0 +1,157 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: zenmei-bff-api
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    default-property-inclusion: non_null
+
+# Feign Configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+  circuitbreaker:
+    enabled: true
+    alphanumeric-ids:
+      enabled: true
+
+# Resilience4j Circuit Breaker Configuration
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - feign.FeignException
+    instances:
+      userService:
+        baseConfig: default
+      agendaService:
+        baseConfig: default
+      chamadoService:
+        baseConfig: default
+      clientService:
+        baseConfig: default
+      cnaeService:
+        baseConfig: default
+      despesaService:
+        baseConfig: default
+      notaService:
+        baseConfig: default
+      receitaService:
+        baseConfig: default
+      servicoService:
+        baseConfig: default
+      produtoService:
+        baseConfig: default
+
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+    instances:
+      userService:
+        baseConfig: default
+      agendaService:
+        baseConfig: default
+      chamadoService:
+        baseConfig: default
+      clientService:
+        baseConfig: default
+      cnaeService:
+        baseConfig: default
+      despesaService:
+        baseConfig: default
+      notaService:
+        baseConfig: default
+      receitaService:
+        baseConfig: default
+      servicoService:
+        baseConfig: default
+      produtoService:
+        baseConfig: default
+
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 5s
+
+# Microservices URLs
+microservices:
+  mei-api:
+    url: ${MEI_API_URL:http://localhost:8081}
+  agenda-api:
+    url: ${AGENDA_API_URL:http://localhost:8082}
+  chamado-api:
+    url: ${CHAMADO_API_URL:http://localhost:8084}
+  client-api:
+    url: ${CLIENT_API_URL:http://localhost:8085}
+  cnae-api:
+    url: ${CNAE_API_URL:http://localhost:8086}
+  despesa-api:
+    url: ${DESPESA_API_URL:http://localhost:8087}
+  nota-api:
+    url: ${NOTA_API_URL:http://localhost:8088}
+  receita-api:
+    url: ${RECEITA_API_URL:http://localhost:8089}
+  servico-api:
+    url: ${SERVICO_API_URL:http://localhost:8090}
+  produto-api:
+    url: ${PRODUTO_API_URL:http://localhost:8091}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,circuitbreakers,circuitbreakerevents
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Logging
+logging:
+  level:
+    root: INFO
+    br.inf.softhausit.zenite.zenmei.bff: DEBUG
+    feign: DEBUG
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(%-40.40logger{39}){cyan} %clr(:){red} %clr(%m){faint}%n"
+
+# SpringDoc OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  show-actuator: true
