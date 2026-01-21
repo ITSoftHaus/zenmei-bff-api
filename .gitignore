@@ -1,46 +1,42 @@
-# Build directories
 target/
-build/
-dist/
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# IDE
-.idea/
-.vscode/
-.settings/
+### STS ###
+.apt_generated
 .classpath
+.factorypath
 .project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
 *.ipr
-*.iws
 
-# OS
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### macOS ###
 .DS_Store
-Thumbs.db
 
-# Logs
+### Logs ###
 *.log
-logs/
 
-# Temporary files
-*.tmp
-*.bak
-*.swp
-*~
-
-# Node
-node_modules/
-package-lock.json
-
-# Maven
-dependency-reduced-pom.xml
-
-# Sensitive files
-application-*.properties
-!application-dev.yml
-!application-prod.yml
-!application-hom.yml
+### Environment ###
 .env
 .env.local
-*.key
-*.pem
