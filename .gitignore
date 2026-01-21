@@ -1,0 +1,46 @@
+# Build directories
+target/
+build/
+dist/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Node
+node_modules/
+package-lock.json
+
+# Maven
+dependency-reduced-pom.xml
+
+# Sensitive files
+application-*.properties
+!application-dev.yml
+!application-prod.yml
+!application-hom.yml
+.env
+.env.local
+*.key
+*.pem
