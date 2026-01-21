@@ -1,0 +1,25 @@
+═══════════════════════════════════════════════════════════════════
+                    🚀 COMANDO FINAL DE PUSH
+═══════════════════════════════════════════════════════════════════
+COPIE E EXECUTE ESTE COMANDO NO TERMINAL:
+cd /home/t102640/Desenvolvimento/zenmei/zenmei-bff-api && git push -u origin main
+═══════════════════════════════════════════════════════════════════
+QUANDO PEDIR:
+Username: itsofthaus
+Password: [COLE SEU TOKEN GITHUB AQUI]
+═══════════════════════════════════════════════════════════════════
+RESULTADO ESPERADO:
+✅ Enumerating objects: 120, done.
+✅ Counting objects: 100% (120/120), done.
+✅ Delta compression using up to 8 threads
+✅ Compressing objects: 100% (100/100), done.
+✅ Writing objects: 100% (120/120), XXX KiB | XXX MiB/s, done.
+✅ Total 120 (delta 20), reused 0 (delta 0)
+✅ remote: Resolving deltas: 100% (20/20), done.
+✅ To https://github.com/ITSoftHaus/zenmei-bff-api.git
+✅  * [new branch]      main -> main
+✅ Branch 'main' set up to track remote branch 'main' from 'origin'.
+═══════════════════════════════════════════════════════════════════
+APÓS O PUSH:
+Acesse: https://github.com/ITSoftHaus/zenmei-bff-api
+═══════════════════════════════════════════════════════════════════

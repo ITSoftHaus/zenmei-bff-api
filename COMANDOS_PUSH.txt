@@ -1,0 +1,30 @@
+═══════════════════════════════════════════════════════════════════
+            🚀 COMANDOS PARA FAZER PUSH - ESCOLHA UM
+═══════════════════════════════════════════════════════════════════
+OPÇÃO 1: USAR O SCRIPT AUTOMÁTICO (Recomendado)
+------------------------------------------------
+bash push-to-remote.sh <URL-DO-SEU-REPOSITORIO>
+Exemplo:
+bash push-to-remote.sh https://github.com/seu-usuario/zenmei.git
+OPÇÃO 2: COMANDOS MANUAIS
+--------------------------
+cd /home/t102640/Desenvolvimento/zenmei
+git remote add origin <URL-DO-SEU-REPOSITORIO>
+git push -u origin main
+git push --tags
+EXEMPLOS DE URLs:
+-----------------
+GitHub (HTTPS):
+https://github.com/seu-usuario/zenmei.git
+GitHub (SSH):
+git@github.com:seu-usuario/zenmei.git
+GitLab (HTTPS):
+https://gitlab.com/seu-usuario/zenmei.git
+GitLab (SSH):
+git@gitlab.com:seu-usuario/zenmei.git
+═══════════════════════════════════════════════════════════════════
+💡 APÓS CRIAR O REPOSITÓRIO NO GITHUB/GITLAB:
+1. Copie a URL do repositório
+2. Execute um dos comandos acima substituindo <URL-DO-SEU-REPOSITORIO>
+3. Pronto!
+═══════════════════════════════════════════════════════════════════
