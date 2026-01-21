@@ -40,3 +40,9 @@ build/
 ### Environment ###
 .env
 .env.local
+
+### Firebase Credentials - JamesCoder Security ###
+**/firebase/firebase-service-account.json
+**/*service-account*.json
+**/firebase-adminsdk-*.json
+
