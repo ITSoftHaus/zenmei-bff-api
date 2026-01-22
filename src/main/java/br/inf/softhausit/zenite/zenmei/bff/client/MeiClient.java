@@ -13,11 +13,11 @@ import java.util.UUID;
  * </p>
  */
 @FeignClient(
-    name = "user-service",
+    name = "mei-service",
     url = "${microservices.user-api.url}",
     configuration = br.inf.softhausit.zenite.zenmei.bff.config.FeignConfig.class
 )
-public interface UserClient {
+public interface MeiClient {
 
     @GetMapping("/api/v1/users")
     ResponseEntity<?> listarUsuarios(@RequestHeader("X-User-Id") UUID userId);
@@ -33,4 +33,14 @@ public interface UserClient {
 
     @DeleteMapping("/api/v1/users/{id}")
     ResponseEntity<Void> deletarUsuario(@PathVariable("id") UUID id);
+
+	ResponseEntity<?> listarMeis(UUID userId);
+
+	ResponseEntity<?> buscarMei(UUID id);
+
+	ResponseEntity<?> criarMei(Object mei);
+
+	ResponseEntity<?> atualizarMei(UUID id, Object mei);
+
+	ResponseEntity<Void> deletarMei(UUID id);
 }
