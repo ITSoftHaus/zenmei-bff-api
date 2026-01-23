@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Controller BFF para operações de Usuários
+ * Controller BFF para operações de MEI
  * <p>
- * Agrega e expõe endpoints do microserviço de usuários
+ * Agrega e expõe endpoints do microserviço de MEI
  * </p>
  */
 @Slf4j
@@ -41,64 +42,74 @@ public class MeiBffController {
     
     private final ObrigacoesFiscaisService obrigacoesFiscaisService;
 
-    @Operation(summary = "Listar todos os usuários", description = "Retorna lista de usuários do sistema")
+    @Operation(summary = "Listar todos os MEIs", description = "Retorna lista de MEIs do sistema")
     @GetMapping
-    public ResponseEntity<?> listarUsuarios(
+    public ResponseEntity<?> listarMeis(
             @Parameter(description = "ID do usuário autenticado", required = true)
             @RequestHeader("X-User-Id") UUID userId) {
-        log.info("BFF: Listando usuários para userId: {}", userId);
+        log.info("BFF: Listando MEIs para userId: {}", userId);
         return meiService.listarMeis(userId);
     }
 
-    @Operation(summary = "Buscar usuário por ID", description = "Retorna detalhes de um usuário específico")
+    @Operation(summary = "Buscar MEI por ID", description = "Retorna detalhes de um MEI específico")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarUsuario(
-            @Parameter(description = "ID do usuário", required = true)
+    public ResponseEntity<?> buscarMei(
+            @Parameter(description = "ID do MEI", required = true)
             @PathVariable UUID id) {
         log.info("BFF: Buscando MEI: {}", id);
         return meiService.buscarMei(id);
     }
     
-    @Operation(summary = "Buscar usuário por Email", description = "Retorna detalhes de um usuário específico")
+    @Operation(summary = "Buscar MEI por Email", description = "Retorna detalhes de um MEI específico")
     @GetMapping("/email/{email}")
     public ResponseEntity<?> buscarMeiPorEmail(
-            @Parameter(description = "Email do usuário", required = true)
+            @Parameter(description = "Email do MEI", required = true)
             @PathVariable String email) {
         log.info("BFF: Buscando MEI por email: {}", email);
         return meiService.buscarMeiByMail(email);
     }
     
-    @Operation(summary = "Buscar MEI por Cpf", description = "Retorna detalhes de um usuário específico")
+    @Operation(summary = "Buscar MEI por CPF", description = "Retorna detalhes de um MEI específico")
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<?> buscarMeiPorCpf(
-            @Parameter(description = "CPF do usuário", required = true)
+            @Parameter(description = "CPF do MEI", required = true)
             @PathVariable String cpf) {
         log.info("BFF: Buscando MEI por CPF: {}", cpf);
         return meiService.buscarMeiByCpf(cpf);
     }
     
-    @Operation(summary = "Buscar MEI por Cnpj", description = "Retorna detalhes de um usuário específico")
+    @Operation(summary = "Buscar MEI por CNPJ", description = "Retorna detalhes de um MEI específico")
     @GetMapping("/cnpj/{cnpj}")
     public ResponseEntity<?> buscarMeiPorCnpj(
-            @Parameter(description = "CPF do usuário", required = true)
+            @Parameter(description = "CNPJ do MEI", required = true)
             @PathVariable String cnpj) {
-        log.info("BFF: Buscando MEI por CPF: {}", cnpj);
+        log.info("BFF: Buscando MEI por CNPJ: {}", cnpj);
         return meiService.buscarMeiByCnpj(cnpj);
     }
 
-    @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema")
+    @Operation(summary = "Criar novo MEI", description = "Cria um novo MEI no sistema")
     @PostMapping
-    public ResponseEntity<?> criarUsuario(@RequestBody Object usuario) {
-        log.info("BFF: Criando novo usuário");
-        return meiService.criarMei(usuario);
-    }    
+    public ResponseEntity<?> criarMei(@RequestBody Object mei) {
+        log.info("BFF: Criando novo MEI");
+        return meiService.criarMei(mei);
+    }
+    
+    @Operation(summary = "Atualizar MEI", description = "Atualiza dados de um MEI existente")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarMei(
+            @Parameter(description = "ID do MEI", required = true)
+            @PathVariable UUID id,
+            @RequestBody Object mei) {
+        log.info("BFF: Atualizando MEI: {}", id);
+        return meiService.atualizarMei(id, mei);
+    }
 
-    @Operation(summary = "Deletar usuário", description = "Remove um usuário do sistema")
+    @Operation(summary = "Deletar MEI", description = "Remove um MEI do sistema")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarUsuario(
-            @Parameter(description = "ID do usuário", required = true)
+    public ResponseEntity<Void> deletarMei(
+            @Parameter(description = "ID do MEI", required = true)
             @PathVariable UUID id) {
-        log.info("BFF: Deletando usuário: {}", id);
+        log.info("BFF: Deletando MEI: {}", id);
         return meiService.deletarMei(id);
     }    
     

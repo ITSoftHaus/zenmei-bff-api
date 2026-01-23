@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Feign Client para User API
+ * Feign Client para MEI API
  * <p>
  * Cliente para comunicação com o microserviço de MEI
  * </p>
@@ -33,33 +33,39 @@ public interface MeiClient {
     @GetMapping("/api/v1/mei/{id}")
     ResponseEntity<?> buscarMei(@PathVariable("id") UUID id);
     
-    @GetMapping("/email/{email}")
+    @GetMapping("/api/v1/mei/email/{email}")
     ResponseEntity<?> getMeiByEmail(@NonNull @PathVariable String email);
     
-    @GetMapping("/cpf/{cpf}")
-	public ResponseEntity<?> getMeiByCpf(@NonNull @PathVariable String cpf);
+    @GetMapping("/api/v1/mei/cpf/{cpf}")
+	ResponseEntity<?> getMeiByCpf(@NonNull @PathVariable String cpf);
     
-    @GetMapping("/cnpj/{cnpj}")
-	public ResponseEntity<?> getMeiByCnpj(@NonNull @PathVariable String cnpj);
+    @GetMapping("/api/v1/mei/cnpj/{cnpj}")
+	ResponseEntity<?> getMeiByCnpj(@NonNull @PathVariable String cnpj);
 
-    @PutMapping("/api/v1/mei")
-    ResponseEntity<?> criarMei(@RequestBody Object mei);   
+    @PostMapping("/api/v1/mei")
+    ResponseEntity<?> criarMei(@RequestBody Object mei);
+    
+    @PutMapping("/api/v1/mei/{id}")
+    ResponseEntity<?> atualizarMei(@PathVariable("id") UUID id, @RequestBody Object mei);   
     
     @DeleteMapping("/api/v1/mei/{id}")
     ResponseEntity<Void> deletarMei(@PathVariable("id") UUID id);
     
-    @GetMapping("/obrigacoes")
-	public ResponseEntity<List<?>> getAllObrigacoesFiscais();
+    @GetMapping("/api/v1/mei/obrigacoes-fiscais/tipos")
+	ResponseEntity<List<?>> getAllObrigacoesFiscais();
     
-    @GetMapping("/obrigacoes/{idMei}")
-	public ResponseEntity<List<?>> getAllMeiObrigacoesFiscais(@NonNull @PathVariable UUID idMei);
+    @GetMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais")
+	ResponseEntity<List<?>> getAllMeiObrigacoesFiscais(@NonNull @PathVariable UUID idMei);
     
-    @GetMapping("/{idMei}/obrigacoes-atrasadas")
-    public ResponseEntity<List<?>> listarObrigacoesAtrasadasMei(@PathVariable @NonNull UUID idMei);
+    @GetMapping("/api/v1/mei/{idMei}/obrigacoes-atrasadas")
+    ResponseEntity<List<?>> listarObrigacoesAtrasadasMei(@PathVariable @NonNull UUID idMei);
     
-    @PostMapping("/obrigacoes/criar")
-	public ResponseEntity<List<?>> criaMeiObrigacoesMeiProfile(@NonNull @RequestBody List<Object> meiObrigacoesFiscais);
+    @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais")
+	ResponseEntity<?> criarMeiObrigacoesFiscais(@PathVariable UUID idMei, @NonNull @RequestBody Object meiObrigacoesFiscais);
     
-    @PutMapping("/obrigacoes/alterar")
-	public ResponseEntity<?> alterarMeiObrigacoesMeiProfile(@NonNull @RequestBody Object meiObrigacoesFiscais);
+    @PutMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}")
+	ResponseEntity<?> atualizarMeiObrigacoesFiscais(@PathVariable UUID idMei, @PathVariable UUID id, @NonNull @RequestBody Object meiObrigacoesFiscais);
+    
+    @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}/fechar")
+	ResponseEntity<?> fecharObrigacaoFiscal(@PathVariable UUID idMei, @PathVariable UUID id);
 }

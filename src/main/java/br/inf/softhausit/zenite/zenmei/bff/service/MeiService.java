@@ -70,6 +70,13 @@ public class MeiService {
         return meiClient.criarMei(mei);
     }
     
+    @CircuitBreaker(name = "meiService", fallbackMethod = "atualizarMeiFallback")
+    @Retry(name = "meiService")
+    public ResponseEntity<?> atualizarMei(UUID id, Object mei) {
+        log.debug("Atualizando MEI: {}", id);
+        return meiClient.atualizarMei(id, mei);
+    }
+    
     @CircuitBreaker(name = "meiService", fallbackMethod = "deletarMeiFallback")
     @Retry(name = "meiService")
     public ResponseEntity<Void> deletarMei(UUID id) {
@@ -126,7 +133,13 @@ public class MeiService {
 	private ResponseEntity<?> criarMeiFallback(Object mei, Exception e) {
         log.error("Fallback: Erro ao criar MEI", e);
         return ResponseEntity.status(503).build();
-    }  
+    }
+    
+    @SuppressWarnings("unused")
+	private ResponseEntity<?> atualizarMeiFallback(UUID id, Object mei, Exception e) {
+        log.error("Fallback: Erro ao atualizar MEI {}", id, e);
+        return ResponseEntity.status(503).build();
+    }
 
     @SuppressWarnings("unused")
 	private ResponseEntity<Void> deletarMeiFallback(UUID id, Exception e) {

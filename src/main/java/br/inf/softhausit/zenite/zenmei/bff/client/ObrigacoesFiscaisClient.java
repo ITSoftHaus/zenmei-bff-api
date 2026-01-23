@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.inf.softhausit.zenite.zenmei.bff.dto.MeiObrigacoesAtrasadasResponse;
 import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoFiscalResponse;
 import br.inf.softhausit.zenite.zenmei.bff.dto.TipoObrigacaoFiscalResponse;
 
@@ -27,13 +28,13 @@ public interface ObrigacoesFiscaisClient {
     /**
      * List all types of fiscal obligations.
      */
-    @GetMapping("/api/v1/mei/obrigacoes")
+    @GetMapping("/api/v1/mei/obrigacoes-fiscais/tipos")
     List<TipoObrigacaoFiscalResponse> listarTiposObrigacoes();
 
     /**
      * List fiscal obligations for a specific MEI.
      */
-    @GetMapping("/api/v1/mei/{idMei}")
+    @GetMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais")
     List<ObrigacaoFiscalResponse> listarObrigacoesPorMei(@PathVariable UUID idMei);
 
     /**
@@ -53,5 +54,11 @@ public interface ObrigacoesFiscaisClient {
         @PathVariable UUID id,
         @RequestBody ObrigacaoFiscalResponse obrigacao
     );
+    
+    /**
+     * List MEIs with overdue obligations.
+     */
+    @GetMapping("/api/v1/mei/obrigacoes-atrasadas")
+    List<MeiObrigacoesAtrasadasResponse> listarMeisComObrigacoesAtrasadas();
     
 }
