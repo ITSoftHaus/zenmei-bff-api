@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.inf.softhausit.zenite.zenmei.bff.dto.MeiObrigacoesAtrasadasResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoFiscalResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.TipoObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.MeiObrigacoesAtrasadasResponse;
+import br.inf.softhausit.zenite.zenmei.dto.ObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.TipoObrigacaoFiscalResponse;
 
 /**
  * Feign client for fiscal obligations API.

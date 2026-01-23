@@ -113,7 +113,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>br.inf.softhausit.zenite.zenmei</groupId>
+			<artifactId>zenmei-model-lib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

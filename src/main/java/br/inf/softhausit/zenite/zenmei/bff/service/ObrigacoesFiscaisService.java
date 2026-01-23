@@ -1,5 +1,15 @@
 package br.inf.softhausit.zenite.zenmei.bff.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import br.inf.softhausit.zenite.zenmei.bff.client.ObrigacoesFiscaisClient;
 import br.inf.softhausit.zenite.zenmei.dto.MeiObrigacoesAtrasadasResponse;
 import br.inf.softhausit.zenite.zenmei.dto.ObrigacaoAtrasadaResponse;
@@ -9,16 +19,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Service for orchestrating fiscal obligations operations.

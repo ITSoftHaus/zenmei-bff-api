@@ -4,6 +4,19 @@ server:
 spring:
   application:
     name: zenmei-bff-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zenmei-db
+    username: zeniteapppguser
+    password: zeniteapp@2025
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # use 'validate' ou 'none' em produção
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   jackson:
     serialization:
