@@ -61,27 +61,32 @@ public class MeiService {
     }
 
     // Fallback methods
-    private ResponseEntity<?> listarMeisFallback(UUID userId, Exception e) {
+    @SuppressWarnings("unused")
+	private ResponseEntity<?> listarMeisFallback(UUID userId, Exception e) {
         log.error("Fallback: Erro ao listar MEIs", e);
         return ResponseEntity.ok(Collections.emptyList());
     }
 
-    private ResponseEntity<?> buscarMeiFallback(UUID id, Exception e) {
+    @SuppressWarnings("unused")
+	private ResponseEntity<?> buscarMeiFallback(UUID id, Exception e) {
         log.error("Fallback: Erro ao buscar MEI {}", id, e);
         return ResponseEntity.notFound().build();
     }
 
-    private ResponseEntity<?> criarMeiFallback(Object mei, Exception e) {
+    @SuppressWarnings("unused")
+	private ResponseEntity<?> criarMeiFallback(Object mei, Exception e) {
         log.error("Fallback: Erro ao criar MEI", e);
         return ResponseEntity.status(503).build();
     }
 
-    private ResponseEntity<?> atualizarMeiFallback(UUID id, Object mei, Exception e) {
+    @SuppressWarnings("unused")
+	private ResponseEntity<?> atualizarMeiFallback(UUID id, Object mei, Exception e) {
         log.error("Fallback: Erro ao atualizar MEI {}", id, e);
         return ResponseEntity.status(503).build();
     }
 
-    private ResponseEntity<Void> deletarMeiFallback(UUID id, Exception e) {
+    @SuppressWarnings("unused")
+	private ResponseEntity<Void> deletarMeiFallback(UUID id, Exception e) {
         log.error("Fallback: Erro ao deletar MEI {}", id, e);
         return ResponseEntity.status(503).build();
     }

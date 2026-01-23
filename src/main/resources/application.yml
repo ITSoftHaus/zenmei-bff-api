@@ -42,7 +42,7 @@ resilience4j:
           - java.util.concurrent.TimeoutException
           - feign.FeignException
     instances:
-      userService:
+      meiService:
         baseConfig: default
       agendaService:
         baseConfig: default
@@ -71,7 +71,7 @@ resilience4j:
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
     instances:
-      userService:
+      meiService:
         baseConfig: default
       agendaService:
         baseConfig: default
@@ -132,9 +132,9 @@ management:
   health:
     circuitbreakers:
       enabled: true
-  metrics:
-    export:
-      prometheus:
+  prometheus:
+    metrics:
+      export:
         enabled: true
 
 # Logging
