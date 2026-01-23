@@ -1,10 +1,10 @@
 package br.inf.softhausit.zenite.zenmei.bff.service;
 
 import br.inf.softhausit.zenite.zenmei.bff.client.ObrigacoesFiscaisClient;
-import br.inf.softhausit.zenite.zenmei.bff.dto.MeiObrigacoesAtrasadasResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoAtrasadaResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoFiscalResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.TipoObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.MeiObrigacoesAtrasadasResponse;
+import br.inf.softhausit.zenite.zenmei.dto.ObrigacaoAtrasadaResponse;
+import br.inf.softhausit.zenite.zenmei.dto.ObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.TipoObrigacaoFiscalResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
