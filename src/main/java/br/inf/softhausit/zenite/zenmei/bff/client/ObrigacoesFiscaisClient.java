@@ -61,4 +61,13 @@ public interface ObrigacoesFiscaisClient {
     @GetMapping("/api/v1/mei/obrigacoes-atrasadas")
     List<MeiObrigacoesAtrasadasResponse> listarMeisComObrigacoesAtrasadas();
     
+    /**
+     * Close a fiscal obligation.
+     */
+    @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}/fechar")
+    ObrigacaoFiscalResponse fecharObrigacao(
+        @PathVariable UUID idMei,
+        @PathVariable UUID id
+    );
+
 }

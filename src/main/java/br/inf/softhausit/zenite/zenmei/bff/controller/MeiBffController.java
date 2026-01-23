@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.inf.softhausit.zenite.zenmei.bff.dto.MeiObrigacoesAtrasadasResponse;
 import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoFiscalResponse;
 import br.inf.softhausit.zenite.zenmei.bff.dto.TipoObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.bff.service.DashboardBffService;
 import br.inf.softhausit.zenite.zenmei.bff.service.MeiService;
 import br.inf.softhausit.zenite.zenmei.bff.service.ObrigacoesFiscaisService;
+import br.inf.softhausit.zenite.zenmei.dto.DashboardMeiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,6 +43,8 @@ public class MeiBffController {
     private final MeiService meiService;
     
     private final ObrigacoesFiscaisService obrigacoesFiscaisService;
+
+    private final DashboardBffService dashboardBffService;
 
     @Operation(summary = "Listar todos os MEIs", description = "Retorna lista de MEIs do sistema")
     @GetMapping
@@ -111,8 +115,18 @@ public class MeiBffController {
             @PathVariable UUID id) {
         log.info("BFF: Deletando MEI: {}", id);
         return meiService.deletarMei(id);
-    }    
-    
+    }
+
+    @Operation(summary = "Obter Dashboard do MEI",
+               description = "Retorna visão completa com resumo financeiro, obrigações fiscais, alertas e KPIs")
+    @GetMapping("/{idMei}/dashboard")
+    public ResponseEntity<DashboardMeiResponse> getDashboard(
+            @Parameter(description = "ID do MEI", required = true)
+            @PathVariable UUID idMei) {
+        log.info("BFF: Buscando dashboard do MEI: {}", idMei);
+        return dashboardBffService.getDashboard(idMei);
+    }
+
     @GetMapping("/obrigacoes-fiscais/tipos")
     public ResponseEntity<List<TipoObrigacaoFiscalResponse>> listarTiposObrigacoes() {
         log.info("Request to list fiscal obligation types");

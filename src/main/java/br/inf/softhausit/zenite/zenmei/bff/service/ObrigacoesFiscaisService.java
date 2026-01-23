@@ -103,20 +103,7 @@ public class ObrigacoesFiscaisService {
     @Retry(name = "obrigacoesFiscaisService")
     public ObrigacaoFiscalResponse fecharObrigacao(UUID idMei, UUID idObrigacao) {
         log.debug("Closing fiscal obligation {} for MEI {}", idObrigacao, idMei);
-        
-        // Get current obligation
-        List<ObrigacaoFiscalResponse> obrigacoes = 
-            obrigacoesFiscaisClient.listarObrigacoesPorMei(idMei);
-        
-        ObrigacaoFiscalResponse obrigacao = obrigacoes.stream()
-            .filter(o -> o.getId().equals(idObrigacao))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Obligation not found"));
-        
-        // Update status to "Em dia"
-        obrigacao.setStatus("Em dia");
-        
-        return obrigacoesFiscaisClient.atualizarObrigacao(idMei, idObrigacao, obrigacao);
+        return obrigacoesFiscaisClient.fecharObrigacao(idMei, idObrigacao);
     }
 
     // Fallback methods
