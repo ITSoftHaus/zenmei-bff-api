@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/services")
+@RequestMapping("/api/bff/v1/servico")
 @RequiredArgsConstructor
 @Tag(name = "Services", description = "APIs de gerenciamento de serviços")
 public class ServicoBffController {

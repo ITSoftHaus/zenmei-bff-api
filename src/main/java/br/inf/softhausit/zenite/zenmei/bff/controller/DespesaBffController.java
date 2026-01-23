@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/despesas")
+@RequestMapping("/api/bff/v1/despesa")
 @RequiredArgsConstructor
 @Tag(name = "Despesas", description = "APIs de gerenciamento de despesas")
 public class DespesaBffController {

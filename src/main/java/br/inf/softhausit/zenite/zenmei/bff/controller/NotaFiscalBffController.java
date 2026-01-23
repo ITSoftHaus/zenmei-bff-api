@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/notas")
+@RequestMapping("/api/bff/v1/nota")
 @RequiredArgsConstructor
 @Tag(name = "Notas Fiscais", description = "APIs de gerenciamento de notas fiscais")
 public class NotaFiscalBffController {

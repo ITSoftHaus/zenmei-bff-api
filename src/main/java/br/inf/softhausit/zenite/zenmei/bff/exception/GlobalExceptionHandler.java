@@ -1,8 +1,11 @@
 package br.inf.softhausit.zenite.zenmei.bff.exception;
 
-import feign.FeignException;
-import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,9 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
+import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Manipulador global de exceções para o BFF
@@ -26,6 +29,19 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessException(BusinessException ex) {
+        log.error("Business error: {}", ex.getMessage());
+        
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Business Error");
+        body.put("message", ex.getMessage());
+        
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * Trata exceções de microserviços

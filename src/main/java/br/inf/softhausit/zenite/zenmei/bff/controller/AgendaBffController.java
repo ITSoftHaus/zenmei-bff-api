@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/compromissos")
+@RequestMapping("/api/bff/v1/agenda")
 @RequiredArgsConstructor
 @Tag(name = "Agenda", description = "APIs de gerenciamento de compromissos")
 public class AgendaBffController {
