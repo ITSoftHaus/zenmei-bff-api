@@ -34,7 +34,7 @@ O **Backend for Frontend (BFF)** do ZenMEI foi criado com sucesso e está **tota
 
 | # | Cliente | Microsserviço | Status |
 |---|---------|---------------|--------|
-| 1 | UserClient | User API (8081) | ✅ Completo |
+| 1 | MeiClient | User API (8081) | ✅ Completo |
 | 2 | AgendaClient | Agenda API (8082) | ✅ Completo |
 | 3 | ChamadoClient | Chamado API (8084) | ✅ Completo |
 | 4 | ClientClient | Client API (8085) | ✅ Completo |
@@ -49,7 +49,7 @@ O **Backend for Frontend (BFF)** do ZenMEI foi criado com sucesso e está **tota
 
 | # | Service | Circuit Breaker | Retry | Fallback | Status |
 |---|---------|-----------------|-------|----------|--------|
-| 1 | UserService | ✅ | ✅ | ✅ | ✅ Completo |
+| 1 | MeiService | ✅ | ✅ | ✅ | ✅ Completo |
 | 2 | AgendaService | ✅ | ✅ | ✅ | ✅ Completo |
 | 3 | ChamadoService | ✅ | ✅ | ✅ | ✅ Completo |
 | 4 | ClientService | ✅ | ✅ | ✅ | ✅ Completo |
@@ -64,7 +64,7 @@ O **Backend for Frontend (BFF)** do ZenMEI foi criado com sucesso e está **tota
 
 | # | Controller | Endpoint Base | Operações | Status |
 |---|-----------|---------------|-----------|--------|
-| 1 | UserBffController | `/api/bff/v1/users` | CRUD completo | ✅ |
+| 1 | MeiBffController | `/api/bff/v1/users` | CRUD completo | ✅ |
 | 2 | AgendaBffController | `/api/bff/v1/compromissos` | CRUD completo | ✅ |
 | 3 | ChamadoBffController | `/api/bff/v1/chamados` | CRUD completo | ✅ |
 | 4 | ClientBffController | `/api/bff/v1/clients` | CRUD completo | ✅ |
@@ -98,7 +98,7 @@ O **Backend for Frontend (BFF)** do ZenMEI foi criado com sucesso e está **tota
 
 ### Endpoints por Recurso
 
-1. **Users**: 5 endpoints
+1. **Meis**: 5 endpoints
 2. **Compromissos**: 5 endpoints
 3. **Chamados**: 5 endpoints
 4. **Clients**: 5 endpoints
