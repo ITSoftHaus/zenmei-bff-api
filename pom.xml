@@ -139,19 +139,12 @@
 			<artifactId>zenmei-model-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	
-<!-- Firebase Admin SDK -->
-<dependency>
-<groupId>com.google.firebase</groupId>
-<artifactId>firebase-admin</artifactId>
-<version>9.2.0</version>
-</dependency>
-<!-- Spring Security -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-security</artifactId>
-</dependency>
-
+		
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+		</dependency>	
+		
 	</dependencies>
 
 	<dependencyManagement>
@@ -165,17 +158,16 @@
 			</dependency>
 		
 <!-- Firebase Admin SDK -->
-<dependency>
-<groupId>com.google.firebase</groupId>
-<artifactId>firebase-admin</artifactId>
-<version>9.2.0</version>
-</dependency>
-<!-- Spring Security -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-security</artifactId>
-</dependency>
-
+			<dependency>
+				<groupId>com.google.firebase</groupId>
+				<artifactId>firebase-admin</artifactId>
+				<version>9.2.0</version>
+			</dependency>
+			<!-- Spring Security -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-security</artifactId>
+			</dependency>
 	</dependencies>
 	</dependencyManagement>
 
