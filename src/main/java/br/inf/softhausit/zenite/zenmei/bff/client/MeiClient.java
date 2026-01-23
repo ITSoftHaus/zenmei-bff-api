@@ -61,10 +61,10 @@ public interface MeiClient {
     ResponseEntity<List<?>> listarObrigacoesAtrasadasMei(@PathVariable @NonNull UUID idMei);
     
     @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais")
-	ResponseEntity<?> criarMeiObrigacaoFiscal(@PathVariable UUID idMei, @NonNull @RequestBody Object meiObrigacaoFiscal);
+	ResponseEntity<?> criarObrigacaoFiscal(@PathVariable UUID idMei, @NonNull @RequestBody Object obrigacaoFiscal);
     
     @PutMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}")
-	ResponseEntity<?> atualizarMeiObrigacaoFiscal(@PathVariable UUID idMei, @PathVariable UUID id, @NonNull @RequestBody Object meiObrigacaoFiscal);
+	ResponseEntity<?> atualizarObrigacaoFiscal(@PathVariable UUID idMei, @PathVariable UUID id, @NonNull @RequestBody Object obrigacaoFiscal);
     
     @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}/fechar")
 	ResponseEntity<?> fecharObrigacaoFiscal(@PathVariable UUID idMei, @PathVariable UUID id);
