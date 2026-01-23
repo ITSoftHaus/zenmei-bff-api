@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/chamados")
+@RequestMapping("/api/bff/v1/chamado")
 @RequiredArgsConstructor
 @Tag(name = "Chamados", description = "APIs de gerenciamento de chamados")
 public class ChamadoBffController {

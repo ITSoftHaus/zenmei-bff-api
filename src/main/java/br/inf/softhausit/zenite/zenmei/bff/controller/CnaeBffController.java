@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/bff/v1/cnaes")
+@RequestMapping("/api/bff/v1/cnae")
 @RequiredArgsConstructor
 @Tag(name = "CNAEs", description = "APIs de gerenciamento de CNAEs e LC116")
 public class CnaeBffController {

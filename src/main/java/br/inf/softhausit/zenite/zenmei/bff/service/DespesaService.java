@@ -1,15 +1,16 @@
 package br.inf.softhausit.zenite.zenmei.bff.service;
 
+import java.util.Collections;
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import br.inf.softhausit.zenite.zenmei.bff.client.DespesaClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.UUID;
 
 /**
  * Service para integração com Despesa API
