@@ -1,15 +1,16 @@
 package br.inf.softhausit.zenite.zenmei.bff.service;
 
+import java.util.Collections;
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import br.inf.softhausit.zenite.zenmei.bff.client.AgendaClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.UUID;
 
 /**
  * Service para integração com Agenda API
@@ -21,64 +22,64 @@ public class AgendaService {
 
     private final AgendaClient agendaClient;
 
-    @CircuitBreaker(name = "agendaService", fallbackMethod = "listarCompromissosFallback")
+    @CircuitBreaker(name = "agendaService", fallbackMethod = "listarAgendaFallback")
     @Retry(name = "agendaService")
-    public ResponseEntity<?> listarCompromissos(UUID userId) {
-        log.debug("Listando compromissos para userId: {}", userId);
-        return agendaClient.listarCompromissos(userId);
+    public ResponseEntity<?> listarAgenda(UUID userId) {
+        log.debug("Listando Agenda para userId: {}", userId);
+        return agendaClient.listarAgenda(userId);
     }
 
-    @CircuitBreaker(name = "agendaService", fallbackMethod = "buscarCompromissoFallback")
+    @CircuitBreaker(name = "agendaService", fallbackMethod = "buscarAgendaFallback")
     @Retry(name = "agendaService")
-    public ResponseEntity<?> buscarCompromisso(UUID id) {
-        log.debug("Buscando compromisso: {}", id);
-        return agendaClient.buscarCompromisso(id);
+    public ResponseEntity<?> buscarAgenda(UUID id) {
+        log.debug("Buscando Agenda: {}", id);
+        return agendaClient.buscarAgenda(id);
     }
 
-    @CircuitBreaker(name = "agendaService", fallbackMethod = "criarCompromissoFallback")
+    @CircuitBreaker(name = "agendaService", fallbackMethod = "criarAgendaFallback")
     @Retry(name = "agendaService")
-    public ResponseEntity<?> criarCompromisso(Object compromisso, UUID userId) {
-        log.debug("Criando compromisso");
-        return agendaClient.criarCompromisso(compromisso, userId);
+    public ResponseEntity<?> criarAgenda(Object Agenda, UUID userId) {
+        log.debug("Criando Agenda");
+        return agendaClient.criarAgenda(Agenda, userId);
     }
 
-    @CircuitBreaker(name = "agendaService", fallbackMethod = "atualizarCompromissoFallback")
+    @CircuitBreaker(name = "agendaService", fallbackMethod = "atualizarAgendaFallback")
     @Retry(name = "agendaService")
-    public ResponseEntity<?> atualizarCompromisso(UUID id, Object compromisso) {
-        log.debug("Atualizando compromisso: {}", id);
-        return agendaClient.atualizarCompromisso(id, compromisso);
+    public ResponseEntity<?> atualizarAgenda(UUID id, Object Agenda) {
+        log.debug("Atualizando Agenda: {}", id);
+        return agendaClient.atualizarAgenda(id, Agenda);
     }
 
-    @CircuitBreaker(name = "agendaService", fallbackMethod = "deletarCompromissoFallback")
+    @CircuitBreaker(name = "agendaService", fallbackMethod = "deletarAgendaFallback")
     @Retry(name = "agendaService")
-    public ResponseEntity<Void> deletarCompromisso(UUID id) {
-        log.debug("Deletando compromisso: {}", id);
-        return agendaClient.deletarCompromisso(id);
+    public ResponseEntity<Void> deletarAgenda(UUID id) {
+        log.debug("Deletando Agenda: {}", id);
+        return agendaClient.deletarAgenda(id);
     }
 
     // Fallback methods
-    private ResponseEntity<?> listarCompromissosFallback(UUID userId, Exception e) {
-        log.error("Fallback: Erro ao listar compromissos", e);
+    private ResponseEntity<?> listarAgendaFallback(UUID userId, Exception e) {
+        log.error("Fallback: Erro ao listar Agenda", e);
         return ResponseEntity.ok(Collections.emptyList());
     }
 
-    private ResponseEntity<?> buscarCompromissoFallback(UUID id, Exception e) {
-        log.error("Fallback: Erro ao buscar compromisso {}", id, e);
+    private ResponseEntity<?> buscarAgendaFallback(UUID id, Exception e) {
+        log.error("Fallback: Erro ao buscar Agenda {}", id, e);
         return ResponseEntity.notFound().build();
     }
 
-    private ResponseEntity<?> criarCompromissoFallback(Object compromisso, UUID userId, Exception e) {
-        log.error("Fallback: Erro ao criar compromisso", e);
+    private ResponseEntity<?> criarAgendaFallback(Object Agenda, UUID userId, Exception e) {
+        log.error("Fallback: Erro ao criar Agenda", e);
         return ResponseEntity.status(503).build();
     }
 
-    private ResponseEntity<?> atualizarCompromissoFallback(UUID id, Object compromisso, Exception e) {
-        log.error("Fallback: Erro ao atualizar compromisso {}", id, e);
+    private ResponseEntity<?> atualizarAgendaFallback(UUID id, Object Agenda, Exception e) {
+        log.error("Fallback: Erro ao atualizar Agenda {}", id, e);
         return ResponseEntity.status(503).build();
     }
 
-    private ResponseEntity<Void> deletarCompromissoFallback(UUID id, Exception e) {
-        log.error("Fallback: Erro ao deletar compromisso {}", id, e);
+    private ResponseEntity<Void> deletarAgendaFallback(UUID id, Exception e) {
+        log.error("Fallback: Erro ao deletar Agenda {}", id, e);
         return ResponseEntity.status(503).build();
     }
 }

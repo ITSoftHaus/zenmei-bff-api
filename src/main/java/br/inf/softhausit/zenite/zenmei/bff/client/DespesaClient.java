@@ -25,18 +25,18 @@ import org.springframework.web.bind.annotation.RequestHeader;
 )
 public interface DespesaClient {
 
-    @GetMapping("/api/v1/despesas")
+    @GetMapping("/api/v1/despesa")
     ResponseEntity<?> listarDespesas(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/despesas/{id}")
+    @GetMapping("/api/v1/despesa/{id}")
     ResponseEntity<?> buscarDespesa(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/despesas")
+    @PostMapping("/api/v1/despesa")
     ResponseEntity<?> criarDespesa(@RequestBody Object despesa, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/despesas/{id}")
+    @PutMapping("/api/v1/despesa/{id}")
     ResponseEntity<?> atualizarDespesa(@PathVariable("id") UUID id, @RequestBody Object despesa);
 
-    @DeleteMapping("/api/v1/despesas/{id}")
+    @DeleteMapping("/api/v1/despesa/{id}")
     ResponseEntity<Void> deletarDespesa(@PathVariable("id") UUID id);
 }

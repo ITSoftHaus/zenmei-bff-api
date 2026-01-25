@@ -19,21 +19,21 @@ import java.util.UUID;
 )
 public interface NotaFiscalClient {
 
-    @GetMapping("/api/v1/notas")
+    @GetMapping("/api/v1/nota")
     ResponseEntity<?> listarNotas(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/notas/{id}")
+    @GetMapping("/api/v1/nota/{id}")
     ResponseEntity<?> buscarNota(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/notas")
+    @PostMapping("/api/v1/nota")
     ResponseEntity<?> criarNota(@RequestBody Object nota, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/notas/{id}")
+    @PutMapping("/api/v1/nota/{id}")
     ResponseEntity<?> atualizarNota(@PathVariable("id") UUID id, @RequestBody Object nota);
 
-    @DeleteMapping("/api/v1/notas/{id}")
+    @DeleteMapping("/api/v1/nota/{id}")
     ResponseEntity<Void> deletarNota(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/notas/{id}/emitir")
+    @PostMapping("/api/v1/nota/{id}/emitir")
     ResponseEntity<?> emitirNota(@PathVariable("id") UUID id);
 }

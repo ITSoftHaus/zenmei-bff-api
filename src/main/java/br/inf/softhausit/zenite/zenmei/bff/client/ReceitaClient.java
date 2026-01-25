@@ -19,18 +19,18 @@ import java.util.UUID;
 )
 public interface ReceitaClient {
 
-    @GetMapping("/api/v1/vendas")
+    @GetMapping("/api/v1/receita")
     ResponseEntity<?> listarVendas(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/vendas/{id}")
+    @GetMapping("/api/v1/receita/{id}")
     ResponseEntity<?> buscarVenda(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/vendas")
+    @PostMapping("/api/v1/receita")
     ResponseEntity<?> criarVenda(@RequestBody Object venda, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/vendas/{id}")
+    @PutMapping("/api/v1/receita/{id}")
     ResponseEntity<?> atualizarVenda(@PathVariable("id") UUID id, @RequestBody Object venda);
 
-    @DeleteMapping("/api/v1/vendas/{id}")
+    @DeleteMapping("/api/v1/receita/{id}")
     ResponseEntity<Void> deletarVenda(@PathVariable("id") UUID id);
 }

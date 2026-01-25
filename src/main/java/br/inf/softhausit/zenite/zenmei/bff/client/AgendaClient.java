@@ -19,18 +19,18 @@ import java.util.UUID;
 )
 public interface AgendaClient {
 
-    @GetMapping("/api/v1/compromissos")
-    ResponseEntity<?> listarCompromissos(@RequestHeader("X-User-Id") UUID userId);
+    @GetMapping("/api/v1/agenda")
+    ResponseEntity<?> listarAgenda(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/compromissos/{id}")
-    ResponseEntity<?> buscarCompromisso(@PathVariable("id") UUID id);
+    @GetMapping("/api/v1/agenda/{id}")
+    ResponseEntity<?> buscarAgenda(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/compromissos")
-    ResponseEntity<?> criarCompromisso(@RequestBody Object compromisso, @RequestHeader("X-User-Id") UUID userId);
+    @PostMapping("/api/v1/agenda")
+    ResponseEntity<?> criarAgenda(@RequestBody Object agenda, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/compromissos/{id}")
-    ResponseEntity<?> atualizarCompromisso(@PathVariable("id") UUID id, @RequestBody Object compromisso);
+    @PutMapping("/api/v1/agenda/{id}")
+    ResponseEntity<?> atualizarAgenda(@PathVariable("id") UUID id, @RequestBody Object agenda);
 
-    @DeleteMapping("/api/v1/compromissos/{id}")
-    ResponseEntity<Void> deletarCompromisso(@PathVariable("id") UUID id);
+    @DeleteMapping("/api/v1/agenda/{id}")
+    ResponseEntity<Void> deletarAgenda(@PathVariable("id") UUID id);
 }

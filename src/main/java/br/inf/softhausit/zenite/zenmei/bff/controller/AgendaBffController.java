@@ -11,53 +11,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * Controller BFF para operações de Agenda/Compromissos
+ * Controller BFF para operações de Agenda/Agenda
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/bff/v1/agenda")
 @RequiredArgsConstructor
-@Tag(name = "Agenda", description = "APIs de gerenciamento de compromissos")
+@Tag(name = "Agenda", description = "APIs de gerenciamento de Agenda")
 public class AgendaBffController {
 
     private final AgendaService agendaService;
 
-    @Operation(summary = "Listar todos os compromissos")
+    @Operation(summary = "Listar todos os Agenda")
     @GetMapping
-    public ResponseEntity<?> listarCompromissos(@RequestHeader("X-User-Id") UUID userId) {
-        log.info("BFF: Listando compromissos para userId: {}", userId);
-        return agendaService.listarCompromissos(userId);
+    public ResponseEntity<?> listarAgenda(@RequestHeader("X-User-Id") UUID userId) {
+        log.info("BFF: Listando Agenda para userId: {}", userId);
+        return agendaService.listarAgenda(userId);
     }
 
-    @Operation(summary = "Buscar compromisso por ID")
+    @Operation(summary = "Buscar Agenda por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarCompromisso(@PathVariable UUID id) {
-        log.info("BFF: Buscando compromisso: {}", id);
-        return agendaService.buscarCompromisso(id);
+    public ResponseEntity<?> buscarAgenda(@PathVariable UUID id) {
+        log.info("BFF: Buscando Agenda: {}", id);
+        return agendaService.buscarAgenda(id);
     }
 
-    @Operation(summary = "Criar novo compromisso")
+    @Operation(summary = "Criar novo Agenda")
     @PostMapping
-    public ResponseEntity<?> criarCompromisso(
-            @RequestBody Object compromisso,
+    public ResponseEntity<?> criarAgenda(
+            @RequestBody Object agenda,
             @RequestHeader("X-User-Id") UUID userId) {
-        log.info("BFF: Criando novo compromisso");
-        return agendaService.criarCompromisso(compromisso, userId);
+        log.info("BFF: Criando nova Agenda");
+        return agendaService.criarAgenda(agenda, userId);
     }
 
-    @Operation(summary = "Atualizar compromisso")
+    @Operation(summary = "Atualizar Agenda")
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarCompromisso(
+    public ResponseEntity<?> atualizarAgenda(
             @PathVariable UUID id,
-            @RequestBody Object compromisso) {
-        log.info("BFF: Atualizando compromisso: {}", id);
-        return agendaService.atualizarCompromisso(id, compromisso);
+            @RequestBody Object agenda) {
+        log.info("BFF: Atualizando Agenda: {}", id);
+        return agendaService.atualizarAgenda(id, agenda);
     }
 
-    @Operation(summary = "Deletar compromisso")
+    @Operation(summary = "Deletar Agenda")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCompromisso(@PathVariable UUID id) {
-        log.info("BFF: Deletando compromisso: {}", id);
-        return agendaService.deletarCompromisso(id);
+    public ResponseEntity<Void> deletarAgenda(@PathVariable UUID id) {
+        log.info("BFF: Deletando Agenda: {}", id);
+        return agendaService.deletarAgenda(id);
     }
 }
