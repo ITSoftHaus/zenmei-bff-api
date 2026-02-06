@@ -19,18 +19,18 @@ import java.util.UUID;
 )
 public interface ChamadoClient {
 
-    @GetMapping("/api/v1/chamados")
+    @GetMapping("/api/v1/chamado")
     ResponseEntity<?> listarChamados(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/chamados/{id}")
+    @GetMapping("/api/v1/chamado/{id}")
     ResponseEntity<?> buscarChamado(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/chamados")
+    @PostMapping("/api/v1/chamado")
     ResponseEntity<?> criarChamado(@RequestBody Object chamado, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/chamados/{id}")
+    @PutMapping("/api/v1/chamado/{id}")
     ResponseEntity<?> atualizarChamado(@PathVariable("id") UUID id, @RequestBody Object chamado);
 
-    @DeleteMapping("/api/v1/chamados/{id}")
+    @DeleteMapping("/api/v1/chamado/{id}")
     ResponseEntity<Void> deletarChamado(@PathVariable("id") UUID id);
 }

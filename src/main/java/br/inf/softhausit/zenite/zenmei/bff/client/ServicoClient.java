@@ -19,18 +19,18 @@ import java.util.UUID;
 )
 public interface ServicoClient {
 
-    @GetMapping("/api/v1/services")
+    @GetMapping("/api/v1/servico")
     ResponseEntity<?> listarServicos(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/services/{id}")
+    @GetMapping("/api/v1/servico/{id}")
     ResponseEntity<?> buscarServico(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/services")
+    @PostMapping("/api/v1/servico")
     ResponseEntity<?> criarServico(@RequestBody Object servico, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/services")
+    @PutMapping("/api/v1/servico")
     ResponseEntity<?> atualizarServico(@RequestBody Object servico);
 
-    @DeleteMapping("/api/v1/services/{id}")
+    @DeleteMapping("/api/v1/servico/{id}")
     ResponseEntity<Void> deletarServico(@PathVariable("id") UUID id);
 }

@@ -1,0 +1,448 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: zenmei-postgres
+    environment:
+      POSTGRES_DB: zenmei
+      POSTGRES_USER: zenmei
+      POSTGRES_PASSWORD: zenmei123
+      # Aumentar limites para suportar 11 microsserviços + DBeaver
+      POSTGRES_MAX_CONNECTIONS: 200
+      POSTGRES_SHARED_BUFFERS: 256MB
+    ports:
+      - "5433:5432"  # Porta externa 5433 para evitar conflito
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      postgres
+      -c max_connections=200
+      -c shared_buffers=256MB
+      -c effective_cache_size=512MB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=2621kB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zenmei"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - zenmei-network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: zenmei-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - zenmei-network
+
+  # MEI API
+  zenmei-mei-api:
+    build:
+      context: ../../zenmei-mei-api
+      dockerfile: ../../zenmei-mei-api/Dockerfile
+    container_name: zenmei-mei-api
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Client API
+  zenmei-client-api:
+    build:
+      context: ../../zenmei-client-api
+      dockerfile: ../../zenmei-client-api/Dockerfile
+    container_name: zenmei-client-api
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Agenda API
+  zenmei-agenda-api:
+    build:
+      context: ../../zenmei-agenda-api
+      dockerfile: ../../zenmei-agenda-api/Dockerfile
+    container_name: zenmei-agenda-api
+    ports:
+      - "8083:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Chamado API
+  zenmei-chamado-api:
+    build:
+      context: ../../zenmei-chamado-api
+      dockerfile: ../../zenmei-chamado-api/Dockerfile
+    container_name: zenmei-chamado-api
+    ports:
+      - "8084:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # CNAE API
+  zenmei-cnae-api:
+    build:
+      context: ../../zenmei-cnae-api
+      dockerfile: ../../zenmei-cnae-api/Dockerfile
+    container_name: zenmei-cnae-api
+    ports:
+      - "8085:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Despesa API
+  zenmei-despesa-api:
+    build:
+      context: ../../zenmei-despesa-api
+      dockerfile: ../../zenmei-despesa-api/Dockerfile
+    container_name: zenmei-despesa-api
+    ports:
+      - "8086:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Nota Fiscal API
+  zenmei-nota-api:
+    build:
+      context: ../../zenmei-nota-api
+      dockerfile: ../../zenmei-nota-api/Dockerfile
+    container_name: zenmei-nota-api
+    ports:
+      - "8087:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Produto API
+  zenmei-produto-api:
+    build:
+      context: ../../zenmei-produto-api
+      dockerfile: ../../zenmei-produto-api/Dockerfile
+    container_name: zenmei-produto-api
+    ports:
+      - "8088:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Receita API
+  zenmei-receita-api:
+    build:
+      context: ../../zenmei-receita-api
+      dockerfile: ../../zenmei-receita-api/Dockerfile
+    container_name: zenmei-receita-api
+    ports:
+      - "8089:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Servico API
+  zenmei-servico-api:
+    build:
+      context: ../../zenmei-servico-api
+      dockerfile: ../../zenmei-servico-api/Dockerfile
+    container_name: zenmei-servico-api
+    ports:
+      - "8090:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/zenmei
+      SPRING_DATASOURCE_USERNAME: zenmei
+      SPRING_DATASOURCE_PASSWORD: zenmei123
+      # Connection Pool - Limitar para não esgotar conexões
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 2
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 600000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # BFF API
+  zenmei-bff-api:
+    build:
+      context: ..
+      dockerfile: ../Dockerfile
+    container_name: zenmei-bff-api
+    ports:
+      - "8091:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
+      # Service URLs
+      MEI_SERVICE_URL: http://zenmei-mei-api:8080
+      CLIENT_SERVICE_URL: http://zenmei-client-api:8080
+      AGENDA_SERVICE_URL: http://zenmei-agenda-api:8080
+      CHAMADO_SERVICE_URL: http://zenmei-chamado-api:8080
+      CNAE_SERVICE_URL: http://zenmei-cnae-api:8080
+      DESPESA_SERVICE_URL: http://zenmei-despesa-api:8080
+      NOTA_SERVICE_URL: http://zenmei-nota-api:8080
+      PRODUTO_SERVICE_URL: http://zenmei-produto-api:8080
+      RECEITA_SERVICE_URL: http://zenmei-receita-api:8080
+      SERVICO_SERVICE_URL: http://zenmei-servico-api:8080
+    depends_on:
+      - zenmei-mei-api
+      - zenmei-client-api
+      - zenmei-agenda-api
+      - zenmei-chamado-api
+      - zenmei-cnae-api
+      - zenmei-despesa-api
+      - zenmei-nota-api
+      - zenmei-produto-api
+      - zenmei-receita-api
+      - zenmei-servico-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zenmei-network
+
+  # Frontend
+  zenite-mei-app:
+    build:
+      context: ../../zenite-mei-app
+      dockerfile: Dockerfile
+    container_name: zenite-mei-app
+    ports:
+      - "5173:80"
+    environment:
+      VITE_API_URL: http://localhost:8091/api/bff/v1
+      VITE_FIREBASE_API_KEY: ${VITE_FIREBASE_API_KEY}
+      VITE_FIREBASE_AUTH_DOMAIN: ${VITE_FIREBASE_AUTH_DOMAIN}
+      VITE_FIREBASE_PROJECT_ID: ${VITE_FIREBASE_PROJECT_ID}
+    depends_on:
+      - zenmei-bff-api
+    networks:
+      - zenmei-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  zenmei-network:
+    driver: bridge

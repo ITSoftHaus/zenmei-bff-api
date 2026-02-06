@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.inf.softhausit.zenite.zenmei.bff.dto.MeiObrigacoesAtrasadasResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.ObrigacaoFiscalResponse;
-import br.inf.softhausit.zenite.zenmei.bff.dto.TipoObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.MeiObrigacoesAtrasadasResponse;
+import br.inf.softhausit.zenite.zenmei.dto.ObrigacaoFiscalResponse;
+import br.inf.softhausit.zenite.zenmei.dto.TipoObrigacaoFiscalResponse;
 
 /**
  * Feign client for fiscal obligations API.
@@ -61,4 +61,13 @@ public interface ObrigacoesFiscaisClient {
     @GetMapping("/api/v1/mei/obrigacoes-atrasadas")
     List<MeiObrigacoesAtrasadasResponse> listarMeisComObrigacoesAtrasadas();
     
+    /**
+     * Close a fiscal obligation.
+     */
+    @PostMapping("/api/v1/mei/{idMei}/obrigacoes-fiscais/{id}/fechar")
+    ObrigacaoFiscalResponse fecharObrigacao(
+        @PathVariable UUID idMei,
+        @PathVariable UUID id
+    );
+
 }

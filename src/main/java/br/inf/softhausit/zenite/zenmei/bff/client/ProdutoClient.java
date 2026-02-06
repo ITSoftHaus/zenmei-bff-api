@@ -19,18 +19,18 @@ import java.util.UUID;
 )
 public interface ProdutoClient {
 
-    @GetMapping("/api/v1/produtos")
+    @GetMapping("/api/v1/produto")
     ResponseEntity<?> listarProdutos(@RequestHeader("X-User-Id") UUID userId);
 
-    @GetMapping("/api/v1/produtos/{id}")
+    @GetMapping("/api/v1/produto/{id}")
     ResponseEntity<?> buscarProduto(@PathVariable("id") UUID id);
 
-    @PostMapping("/api/v1/produtos")
+    @PostMapping("/api/v1/produto")
     ResponseEntity<?> criarProduto(@RequestBody Object produto, @RequestHeader("X-User-Id") UUID userId);
 
-    @PutMapping("/api/v1/produtos/{id}")
+    @PutMapping("/api/v1/produto/{id}")
     ResponseEntity<?> atualizarProduto(@PathVariable("id") UUID id, @RequestBody Object produto);
 
-    @DeleteMapping("/api/v1/produtos/{id}")
+    @DeleteMapping("/api/v1/produto/{id}")
     ResponseEntity<Void> deletarProduto(@PathVariable("id") UUID id);
 }
